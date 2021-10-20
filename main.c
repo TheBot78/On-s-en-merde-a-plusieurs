@@ -21,16 +21,18 @@ int main(int ac, char * const *av)
 {
     sfRenderWindow *window = create_window(800 , 600, 32 , "Csfml");
     sfEvent event;
-    sfMusic_createFromFile("113 Nightmare.ogg");
-    sfMu
+    sfMusic *music;
+    music = sfMusic_createFromFile("113 Nightmare.ogg");
+    sfMusic_setLoop(music, sfTrue);
+    sfMusic_play(music);
     while (sfRenderWindow_isOpen(window)) {
-        sfRenderWindow_clear(window, sfRed);
+        sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_display(window);
-        sfMusic_setLoop("113 Nightmare.ogg", sfTrue);
-        sfMusic_play("113 Nightmare.ogg");
         while (sfRenderWindow_pollEvent(window, &event)) {
-            if (event.type == sfEvtClosed)
+            if (event.type == sfEvtClosed) {
+                sfMusic_destroy(music);
                 sfRenderWindow_close(window);
+            }
         }
     }
     sfRenderWindow_destroy(window);
